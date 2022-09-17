@@ -7,6 +7,8 @@ package TodoApp.view;
 import TodoApp.model.User;
 import TodoApp.util.DatabaseFactory;
 import TodoApp.util.Login;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import javax.swing.JOptionPane;
 
 /**
@@ -133,6 +135,7 @@ public class LoginScreen extends javax.swing.JFrame {
         // TODO add your handling code here:
         CriarContaDialogScreen criarContaDialogScreen = new CriarContaDialogScreen(this, rootPaneCheckingEnabled);
         criarContaDialogScreen.setVisible(true);
+       
     }//GEN-LAST:event_jLabelCriarContaMouseClicked
 
     private void jButtonLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonLoginMouseClicked

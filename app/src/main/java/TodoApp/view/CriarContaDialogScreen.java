@@ -4,6 +4,11 @@
  */
 package TodoApp.view;
 
+import TodoApp.controller.UserController;
+import TodoApp.model.User;
+import java.util.Arrays;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author ALAN
@@ -13,10 +18,13 @@ public class CriarContaDialogScreen extends javax.swing.JDialog {
     /**
      * Creates new form CriarContaDialogScreen
      */
+    UserController userController;
+    
     public CriarContaDialogScreen(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         this.setLocationRelativeTo(null);
+        userController = new UserController();
     }
 
     /**
@@ -31,21 +39,33 @@ public class CriarContaDialogScreen extends javax.swing.JDialog {
         jPanelCriarConta = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        jTextFieldUsername = new javax.swing.JTextField();
         jPasswordField1 = new javax.swing.JPasswordField();
         jButtonCriarConta = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        jPasswordField2 = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanelCriarConta.setBackground(new java.awt.Color(165, 201, 202));
 
+        jLabel1.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         jLabel1.setText("Username");
 
+        jLabel2.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         jLabel2.setText("Password");
 
         jButtonCriarConta.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
         jButtonCriarConta.setText("Criar conta");
         jButtonCriarConta.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButtonCriarConta.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonCriarContaMouseClicked(evt);
+            }
+        });
+
+        jLabel3.setFont(new java.awt.Font("Verdana", 0, 12)); // NOI18N
+        jLabel3.setText("Confirm password");
 
         javax.swing.GroupLayout jPanelCriarContaLayout = new javax.swing.GroupLayout(jPanelCriarConta);
         jPanelCriarConta.setLayout(jPanelCriarContaLayout);
@@ -54,14 +74,16 @@ public class CriarContaDialogScreen extends javax.swing.JDialog {
             .addGroup(jPanelCriarContaLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanelCriarContaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField1)
+                    .addComponent(jTextFieldUsername)
                     .addComponent(jPasswordField1)
+                    .addComponent(jButtonCriarConta, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
                     .addGroup(jPanelCriarContaLayout.createSequentialGroup()
                         .addGroup(jPanelCriarContaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
-                            .addComponent(jLabel2))
+                            .addComponent(jLabel2)
+                            .addComponent(jLabel3))
                         .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(jButtonCriarConta, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE))
+                    .addComponent(jPasswordField2))
                 .addContainerGap())
         );
         jPanelCriarContaLayout.setVerticalGroup(
@@ -70,14 +92,18 @@ public class CriarContaDialogScreen extends javax.swing.JDialog {
                 .addGap(25, 25, 25)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(15, 15, 15)
+                .addComponent(jTextFieldUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(9, 9, 9)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(35, 35, 35)
+                .addGap(12, 12, 12)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                 .addComponent(jButtonCriarConta)
-                .addContainerGap(54, Short.MAX_VALUE))
+                .addGap(15, 15, 15))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -93,6 +119,25 @@ public class CriarContaDialogScreen extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButtonCriarContaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonCriarContaMouseClicked
+        // TODO add your handling code here:
+        System.out.println(isFieldsValid());
+        
+        if(isFieldsValid()){
+            User user = new User();
+            user.setUsername(jTextFieldUsername.getText());
+            user.setPassword(String.valueOf(jPasswordField1.getPassword()));
+            userController.save(user);
+            JOptionPane.showMessageDialog(rootPane, "Conta criada com sucesso");
+            this.dispose();
+        }
+        else{
+            JOptionPane.showMessageDialog(rootPane, "Não foi possível criar conta,"
+                   +" preencha corretamente os campos");
+        }
+        
+    }//GEN-LAST:event_jButtonCriarContaMouseClicked
 
     /**
      * @param args the command line arguments
@@ -135,13 +180,21 @@ public class CriarContaDialogScreen extends javax.swing.JDialog {
             }
         });
     }
+    boolean isFieldsValid(){
+        boolean fieldsIsnotEmpty = !(jTextFieldUsername.getText().isEmpty() || 
+                jPasswordField1.getPassword().length == 0 || jPasswordField2.getPassword().length == 0);
+        boolean passwordIsValid = Arrays.equals(jPasswordField1.getPassword(), jPasswordField2.getPassword());
+        return passwordIsValid && fieldsIsnotEmpty;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCriarConta;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanelCriarConta;
     private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JPasswordField jPasswordField2;
+    private javax.swing.JTextField jTextFieldUsername;
     // End of variables declaration//GEN-END:variables
 }

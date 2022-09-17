@@ -25,7 +25,7 @@ public class UserController {
 
         // comando de inserção sql
         String sql = "INSERT INTO users(USERNAME,"
-                + "PASSWORD,"
+                + "PASSWORD)"
                 + "VALUES (?,?)";
 
         try {
